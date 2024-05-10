@@ -35,10 +35,10 @@ public class LandingControllers {
         reviewService.createReview(reviewDTO);
     }
 
-    @PostMapping("/meeting/create")
-    public void createMeeting(@RequestBody MeetingDTO meetingDTO){
-        meetingService.createMeeting(meetingDTO);
-    }
+//    @PostMapping("/meeting/create")
+//    public void createMeeting(@RequestBody MeetingDTO meetingDTO){
+//        meetingService.createMeeting(meetingDTO);
+//    }
 
     @GetMapping("/priceList")
     public List<PriceList> getPriceList(){
@@ -50,44 +50,29 @@ public class LandingControllers {
         return reviewService.getReview();
     }
 
-    @GetMapping("/available-slots")
+    @GetMapping("/availableSlotsOnDay")
     public ResponseEntity<List<LocalDateTime>> getAvailableSlots(
             @RequestParam Long employeeId,
             @RequestParam LocalDate date,
             @RequestParam Long serviceId) {
-        List<LocalDateTime> slots = meetingService.getAvailableSlots(employeeId, date, serviceId);
+        List<LocalDateTime> slots = meetingService.getAvailableSlotsOnDay(employeeId, date, serviceId);
+//        System.out.println(slots.size());
         return ResponseEntity.ok(slots);
     }
-    @PostMapping
+
+//    @GetMapping("/availableSlotsOnMonth")
+    @PostMapping("/meeting/create")
     public ResponseEntity<Meeting> createMeeting2(
             @RequestBody MeetingDTO meetingDTO) {
         Meeting meeting = meetingService.createMeeting2(meetingDTO);
         return ResponseEntity.ok(meeting);
     }
-//    @PostMapping
-//    public ResponseEntity<Meeting> createMeeting(
-//            @RequestParam Long employeeId,
-//            @RequestParam Long clientId,
-//            @RequestParam Long serviceId,
-//            @RequestParam LocalDateTime startTime) {
-//        Meeting meeting = meetingService.createMeeting2(employeeId, clientId, serviceId, startTime);
-//        return ResponseEntity.ok(meeting);
-//    }
-//
-////    @PostMapping("/meeting/create2")
-//    public void createMeeting2(@RequestBody MeetingDTO meetingDTO){
-//        meetingService.createMeeting2(meetingDTO);
-//    }
 
-//    @GetMapping("/available-slots")
-//    public ResponseEntity<List<LocalDateTime>> getAvailableSlots(
-//            @RequestParam int serviceId,
-//            @RequestParam int employeeInfoId,
-//            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
-//        List<LocalDateTime> availableSlots = meetingService.meetingGet(serviceId,employeeInfoId, date);
-//
-//        return ResponseEntity.ok(availableSlots);
-//    }
+    @GetMapping("/{year}/{month}")
+    public List<CalendarOnMonthDTO> getCalendar(@PathVariable int month, @PathVariable int year,
+                                                @RequestParam Long serviceId, @RequestParam Long employeeId){
+        return meetingService.getCalendar(month, year, serviceId, employeeId);
+    }
 
 
 }
