@@ -1,9 +1,6 @@
 package com.example.barber.controllers;
 
-import com.example.barber.DTOs.EmployeeDTO;
-import com.example.barber.DTOs.GetReviewDTO;
-import com.example.barber.DTOs.MeetingDTO;
-import com.example.barber.DTOs.ReviewDTO;
+import com.example.barber.DTOs.*;
 import com.example.barber.models.PriceList;
 import com.example.barber.models.Review;
 import com.example.barber.services.MeetingService;
@@ -44,7 +41,7 @@ public class LandingControllers {
 
 
     @GetMapping("/review")
-    public HashMap<EmployeeDTO, List<GetReviewDTO>> getReview(){
+    public List<EmployeeReviewsDTO> getReview(){
         return reviewService.getReview();
     }
 }

@@ -1,6 +1,7 @@
 package com.example.barber.services;
 
 import com.example.barber.DTOs.EmployeeDTO;
+import com.example.barber.DTOs.EmployeeReviewsDTO;
 import com.example.barber.DTOs.GetReviewDTO;
 import com.example.barber.DTOs.ReviewDTO;
 import com.example.barber.Exception.PasswordConfirmationException;
@@ -11,10 +12,7 @@ import com.example.barber.repositories.ReviewRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -44,9 +42,9 @@ public class ReviewService {
     }
 
 
-    public HashMap<EmployeeDTO, List<GetReviewDTO>> getReview() {
+    public List<EmployeeReviewsDTO> getReview() {
         List<Employee> employees = employeeRepository.findAll();
-        HashMap<EmployeeDTO, List<GetReviewDTO>> employeeReviews = new HashMap<>();
+        List<EmployeeReviewsDTO> employeeReviewsList = new ArrayList<>();
 
         for (Employee employee : employees) {
             List<Review> reviews = reviewRepository.findByEmployeeInfo(employee.getEmployeeInfo());
@@ -63,10 +61,10 @@ public class ReviewService {
                 return dto;
             }).collect(Collectors.toList());
 
-            employeeReviews.put(employeeDTO, reviewDTOs);
+            employeeReviewsList.add(new EmployeeReviewsDTO(employeeDTO, reviewDTOs));
         }
 
-        return employeeReviews;
+        return employeeReviewsList;
 
     }
 }
