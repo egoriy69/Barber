@@ -3,11 +3,13 @@ package com.example.barber.models;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @Data
 //@Builder
 @Table(name = "client")
+@EqualsAndHashCode
 public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -43,17 +43,20 @@ public class ReviewService {
 
 
     public List<EmployeeReviewsDTO> getReview() {
-        List<Employee> employees = employeeRepository.findAll();
-        List<EmployeeReviewsDTO> employeeReviewsList = new ArrayList<>();
+        List<Review> reviews = reviewRepository.findAllReviewsWithEmployeesAndClients();
 
-        for (Employee employee : employees) {
-            List<Review> reviews = reviewRepository.findByEmployeeInfo(employee.getEmployeeInfo());
+        Map<EmployeeInfo, List<Review>> groupedByEmployee = reviews.stream()
+                .collect(Collectors.groupingBy(Review::getEmployeeInfo));
+        
+        return groupedByEmployee.entrySet().stream().map(entry -> {
+            EmployeeInfo employeeInfo = entry.getKey();
+            List<Review> employeeReviews = entry.getValue();
 
             EmployeeDTO employeeDTO = new EmployeeDTO();
-            employeeDTO.setFIO(employee.getEmployeeInfo().getFIO());
-            employeeDTO.setAvgStars(reviews.isEmpty() ? 0 : reviews.stream().mapToInt(Review::getStars).average().orElse(0));
+            employeeDTO.setFIO(employeeInfo.getFIO());
+            employeeDTO.setAvgStars(employeeReviews.stream().mapToInt(Review::getStars).average().orElse(0));
 
-            List<GetReviewDTO> reviewDTOs = reviews.stream().map(review -> {
+            List<GetReviewDTO> reviewDTOs = employeeReviews.stream().map(review -> {
                 GetReviewDTO dto = new GetReviewDTO();
                 dto.setFIOClient(review.getClientInfo().getFIO());
                 dto.setStars(review.getStars());
@@ -61,10 +64,7 @@ public class ReviewService {
                 return dto;
             }).collect(Collectors.toList());
 
-            employeeReviewsList.add(new EmployeeReviewsDTO(employeeDTO, reviewDTOs));
-        }
-
-        return employeeReviewsList;
-
+            return new EmployeeReviewsDTO(employeeDTO, reviewDTOs);
+        }).collect(Collectors.toList());
     }
 }

@@ -2,10 +2,13 @@ package com.example.barber.models;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @Data
 @Table(name = "client_info")
+@EqualsAndHashCode
+
 public class ClientInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

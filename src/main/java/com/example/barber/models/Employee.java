@@ -2,6 +2,7 @@ package com.example.barber.models;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @Data
@@ -20,4 +21,13 @@ public class Employee {
 
     @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL)
     private EmployeeInfo employeeInfo;
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        // Include other fields if necessary but not `employeeInfo`
+        return result;
+    }
 }
