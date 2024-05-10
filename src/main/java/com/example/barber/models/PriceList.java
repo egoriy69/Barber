@@ -18,5 +18,14 @@ public class PriceList {
 
     private int cost;
 
-    private Duration duration;
+    @Column(name = "duration", length = 10)
+    private String duration;
+
+    public Duration getDuration() {
+        return Duration.ofMinutes(Long.parseLong(duration));
+    }
+
+    public void setDuration(Duration duration) {
+        this.duration = String.valueOf(duration.toMinutes());
+    }
 }

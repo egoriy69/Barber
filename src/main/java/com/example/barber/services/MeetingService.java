@@ -39,7 +39,7 @@ public class MeetingService {
                 .comment(meetingDTO.getComment())
                 .employeeInfo(employeeRepository.findById(meetingDTO.getEmployeeId()).get().getEmployeeInfo())
                 .startTime(meetingDTO.getStartTime())
-                .endTime(meetingDTO.getEndTime())
+//                .endTime(meetingDTO.getEndTime())
                 .priceList(priceListRepository.findById(meetingDTO.getPriceListId()).get())
                 .build());
     }
@@ -61,33 +61,102 @@ public class MeetingService {
         return client;
     }
 
+//    public List<LocalDateTime> getAvailableSlots(Long employeeId, LocalDate date, Long serviceId) {
+//        PriceList service = priceListRepository.findById(serviceId).orElseThrow(() -> new RuntimeException("Service not found"));
+//
+//        LocalDateTime startOfDay = LocalDateTime.of(date, LocalTime.of(8, 0)); // Начало рабочего дня
+//        LocalDateTime endOfDay = LocalDateTime.of(date, LocalTime.of(18, 0)); // Конец рабочего дня
+//
+//        List<Meeting> meetings = meetingRepository.findByEmployeeInfoIdAndStartTimeBetween(employeeId, startOfDay, endOfDay);
+//
+//        List<LocalDateTime> availableSlots = new ArrayList<>();
+//        LocalDateTime currentTime = startOfDay;
+//        while (currentTime.plus(service.getDuration()).isBefore(endOfDay)) {
+//            boolean isAvailable = true;
+//            for (Meeting meeting : meetings) {
+//                if (currentTime.plus(service.getDuration()).isAfter(meeting.getStartTime()) &&
+//                        currentTime.isBefore(meeting.getStartTime().plus(service.getDuration()))) {
+//                    isAvailable = false;
+////                    break;
+//                }
+//                if(!isAvailable){
+//                    currentTime = meeting.getStartTime();
+//                    break;
+//                }
+//
+//            }
+//            if (isAvailable) {
+//                availableSlots.add(currentTime);
+//                currentTime = currentTime.plusMinutes(30);
+//            }
+//             // Проверяем каждые 30 минут
+//        }
+//        return availableSlots;
+//    }
+
     public List<LocalDateTime> getAvailableSlots(Long employeeId, LocalDate date, Long serviceId) {
         PriceList service = priceListRepository.findById(serviceId).orElseThrow(() -> new RuntimeException("Service not found"));
 
-        LocalDateTime startOfDay = LocalDateTime.of(date, LocalTime.of(8, 0)); // Начало рабочего дня
-        LocalDateTime endOfDay = LocalDateTime.of(date, LocalTime.of(18, 0)); // Конец рабочего дня
+        LocalDateTime startOfDay = LocalDateTime.of(date, LocalTime.of(8, 0));
+        LocalDateTime endOfDay = LocalDateTime.of(date, LocalTime.of(18, 0));
 
+        // Получаем все встречи сотрудника на этот день
         List<Meeting> meetings = meetingRepository.findByEmployeeInfoIdAndStartTimeBetween(employeeId, startOfDay, endOfDay);
 
         List<LocalDateTime> availableSlots = new ArrayList<>();
         LocalDateTime currentTime = startOfDay;
+
         while (currentTime.plus(service.getDuration()).isBefore(endOfDay)) {
             boolean isAvailable = true;
             for (Meeting meeting : meetings) {
-                System.out.println(service.getDuration());
-                if (currentTime.plus(service.getDuration()).isAfter(meeting.getStartTime()) &&
-                        currentTime.isBefore(meeting.getStartTime().plus(service.getDuration()))) {
+                // Продолжительность текущей запланированной встречи
+                Duration meetingDuration = meeting.getPriceList().getDuration();
+                LocalDateTime meetingEndTime = meeting.getStartTime().plus(meetingDuration);
+
+                if (currentTime.plus(service.getDuration()).isAfter(meeting.getStartTime()) && currentTime.isBefore(meetingEndTime)) {
                     isAvailable = false;
                     break;
                 }
             }
+
             if (isAvailable) {
                 availableSlots.add(currentTime);
             }
-            currentTime = currentTime.plusMinutes(30); // Проверяем каждые 30 минут
+            currentTime = currentTime.plusMinutes(30);
         }
+
         return availableSlots;
     }
+
+
+//    public List<LocalDateTime> getAvailableSlots(Long employeeId, LocalDate date, Long serviceId) {
+//        PriceList service = priceListRepository.findById(serviceId).orElseThrow(() -> new RuntimeException("Service not found"));
+//
+//        LocalDateTime startOfDay = LocalDateTime.of(date, LocalTime.of(8, 0)); // Начало рабочего дня
+//        LocalDateTime endOfDay = LocalDateTime.of(date, LocalTime.of(18, 0)); // Конец рабочего дня
+//
+//        List<Meeting> meetings = meetingRepository.findByEmployeeInfoIdAndStartTime(employeeId, startOfDay);
+//
+//        List<LocalDateTime> availableSlots = new ArrayList<>();
+//        LocalDateTime currentTime = startOfDay;
+//        while (currentTime.plus(service.getDuration()).isBefore(endOfDay)) {
+//            boolean isAvailable = true;
+//            for (Meeting meeting : meetings) {
+//                // Получаем продолжительность услуги для данной встречи
+//                Duration meetingDuration = meeting.getPriceList().getDuration();
+//                if (!currentTime.plus(service.getDuration()).isBefore(meeting.getStartTime()) &&
+//                        !currentTime.isAfter(meeting.getStartTime().plus(meetingDuration))) {
+//                    isAvailable = false;
+//                    break;
+//                }
+//            }
+//            if (isAvailable) {
+//                availableSlots.add(currentTime);
+//            }
+//            currentTime = currentTime.plusMinutes(30); // Проверяем каждые 30 минут
+//        }
+//        return availableSlots;
+//    }
 
     @Transactional
     public Meeting createMeeting2(MeetingDTO meetingDTO) {
@@ -97,7 +166,7 @@ public class MeetingService {
                 .clientInfo(client.getClientInfo())
                 .priceList(priceListRepository.findById(meetingDTO.getPriceListId()).get())
                 .startTime(meetingDTO.getStartTime())
-                .endTime(meetingDTO.getStartTime().plus(priceListRepository.findById(meetingDTO.getPriceListId()).get().getDuration()))
+//                .endTime(meetingDTO.getStartTime().plus(priceListRepository.findById(meetingDTO.getPriceListId()).get().getDuration()))
                 .build();
         return meetingRepository.save(meeting);
     }
@@ -114,3 +183,4 @@ public class MeetingService {
 //        return meetingRepository.save(meeting);
 //    }
 }
+//                                .multipliedBy(600000000).multipliedBy(100)

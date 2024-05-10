@@ -23,8 +23,8 @@ public class Meeting {
     @Column(name = "start_time")
     private LocalDateTime startTime;
 
-    @Column(name = "end_time")
-    private LocalDateTime endTime;
+//    @Column(name = "end_time")
+//    private LocalDateTime endTime;
 
     @Column(name = "comment")
     private String comment;
