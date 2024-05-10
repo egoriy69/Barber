@@ -1,8 +1,10 @@
 package com.example.barber.models;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
@@ -10,11 +12,13 @@ import java.time.LocalDateTime;
 @Data
 @Table(name = "meeting")
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Meeting {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    private int id;
 
     @Column(name = "start_time")
     private LocalDateTime startTime;

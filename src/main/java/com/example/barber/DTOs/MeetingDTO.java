@@ -23,9 +23,9 @@ public class MeetingDTO {
 
     private String FIO;
 
-    private int priceListId;
+    private Long priceListId;
 
-    private int employeeId;
+    private Long employeeId;
 
     private String phoneClient;
 }

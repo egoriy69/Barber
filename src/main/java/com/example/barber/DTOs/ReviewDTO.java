@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 public class ReviewDTO {
 
-    private int employeeId;
+    private Long employeeId;
 
     //    private ClientInfo clientId;
     private String FIO;

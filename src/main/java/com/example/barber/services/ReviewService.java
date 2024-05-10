@@ -47,7 +47,7 @@ public class ReviewService {
 
         Map<EmployeeInfo, List<Review>> groupedByEmployee = reviews.stream()
                 .collect(Collectors.groupingBy(Review::getEmployeeInfo));
-        
+
         return groupedByEmployee.entrySet().stream().map(entry -> {
             EmployeeInfo employeeInfo = entry.getKey();
             List<Review> employeeReviews = entry.getValue();

@@ -3,6 +3,8 @@ package com.example.barber.models;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.Duration;
+
 @Entity
 @Data
 @Table(name = "price_list")
@@ -15,4 +17,6 @@ public class PriceList {
     private String name;
 
     private int cost;
+
+    private Duration duration;
 }
