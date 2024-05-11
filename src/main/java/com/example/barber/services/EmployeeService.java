@@ -82,7 +82,6 @@ public class EmployeeService {
         for (LocalDate localDate = startDate; localDate.isBefore(endDate.plusDays(1)); localDate = localDate.plusDays(1)) {
             final LocalDate currentDate = localDate;
             CalendarForEmployeeDTO dto = new CalendarForEmployeeDTO();
-//            List<Meeting> meetingForOneDay = meetings.stream().filter(meeting -> meeting.getStartTime().toLocalDate().isEqual(currentDate)).toList();
             List<MeetingDTO> meetingDTOs = meetings.stream()
                     .filter(meeting -> meeting.getStartTime().toLocalDate().isEqual(currentDate))
                     .map(MeetingDTO::new).toList();

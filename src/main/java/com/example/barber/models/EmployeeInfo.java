@@ -28,7 +28,5 @@ public class EmployeeInfo {
         // Include other fields if necessary but avoid calling `Employee.hashCode()`
         return result;
     }
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "review_id")
-//    private Review review;
+
 }

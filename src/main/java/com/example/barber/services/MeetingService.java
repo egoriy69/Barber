@@ -109,7 +109,7 @@ public class MeetingService {
         for (LocalDate localDate = startDate; localDate.isBefore(endDate.plusDays(1)); localDate = localDate.plusDays(1)) {
             CalendarOnMonthDTO dto = new CalendarOnMonthDTO();
             dto.setLocalDate(localDate);
-            dto.setCurrent(month == currentDate.getMonth().getValue());
+            dto.setCurrent(month == localDate.getMonth().getValue());
 //            System.out.println(getAvailableSlotsOnDay(employeeId, startDate, serviceId));
             if (getAvailableSlotsOnDay(employeeId, localDate, serviceId).isEmpty()){
                 dto.setAvailable(false);
