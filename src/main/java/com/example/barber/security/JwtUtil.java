@@ -51,16 +51,6 @@ public class JwtUtil {
         return getAllClaimsFromToken(token).getSubject();
     }
 
-//    public List<Role> getRoles(String token) {
-//        List<String> roleNames = getAllClaimsFromToken(token).get("roles", List.class);
-//
-//        return roleNames.stream().map(roleName -> {
-//            Role role = new Role();
-//            role.setName(roleName);
-//            return role;
-//        }).collect(Collectors.toList());
-//    }
-
     private Claims getAllClaimsFromToken(String token) {
         return Jwts.parser().setSigningKey(secret.getBytes()).build().parseSignedClaims(token).getBody();
 

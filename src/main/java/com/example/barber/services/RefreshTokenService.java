@@ -25,17 +25,14 @@ public class RefreshTokenService {
         Employee employee = employeeRepository.findByPhone(phone)
                 .orElseThrow(() -> new UsernameNotFoundException("Пользователь с таким телефоном не найден: " + phone));
 
-        // Пытаемся найти существующий токен
         Optional<RefreshToken> existingToken = refreshTokenRepository.findByEmployee(employee);
 
         RefreshToken refreshToken = existingToken.orElse(new RefreshToken());
 
-        // Устанавливаем или обновляем необходимые значения
         refreshToken.setEmployee(employee);
-        refreshToken.setToken(UUID.randomUUID().toString()); // Генерация нового токена
-        refreshToken.setExpiryDate(Instant.now().plusMillis(100000000)); // Установка нового времени истечения
+        refreshToken.setToken(UUID.randomUUID().toString());
+        refreshToken.setExpiryDate(Instant.now().plusMillis(100000000));
 
-        // Сохраняем токен в базе данных
         return refreshTokenRepository.save(refreshToken);
     }
 

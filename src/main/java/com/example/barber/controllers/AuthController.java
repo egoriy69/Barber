@@ -36,8 +36,6 @@ public class AuthController {
 
     private final UserDetailsService userDetailsService;
 
-//    private final AuthService authService;
-
     private final JwtUtil jwtUtil;
 
     private final RefreshTokenService refreshTokenService;
@@ -61,7 +59,6 @@ public class AuthController {
         return ResponseEntity.ok(JwtResponse.builder()
                 .token(jwtUtil.generateToken(userDetails))
                 .refreshToken(refreshTokenService.createRefreshToken(jwtRequest.getPhone()).getToken())
-//                .user(userWithRoleDTO)
                 .build());
     }
 

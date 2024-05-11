@@ -27,7 +27,6 @@ public class Employee {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((id == null) ? 0 : id.hashCode());
-        // Include other fields if necessary but not `employeeInfo`
         return result;
     }
 }

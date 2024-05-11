@@ -9,10 +9,6 @@ import java.util.List;
 @Data
 public class GetReviewDTO {
 
-//    HashMap<Integer, String> reviewMap;
-
-//    List<Review> dsd;
-
     private String FIOClient;
 
     private int stars;

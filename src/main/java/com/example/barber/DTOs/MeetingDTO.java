@@ -39,10 +39,10 @@ public class MeetingDTO {
         this.startTime = meeting.getStartTime();
         this.endTime = this.getStartTime().plusMinutes(meeting.getPriceList().getDuration().toMinutes());
         this.comment = meeting.getComment();
-        this.FIO = meeting.getEmployeeInfo().getFIO(); // Предполагаем, что есть такое поле в EmployeeInfo
+        this.FIO = meeting.getClientInfo().getFIO();
         this.priceListId = meeting.getPriceList().getId();
         this.employeeId = meeting.getEmployeeInfo().getId();
-        this.phoneClient = meeting.getClientInfo().getClient().getPhone(); // Предполагаем, что есть метод getPhone в ClientInfo
+        this.phoneClient = meeting.getClientInfo().getClient().getPhone();
     }
 
 }

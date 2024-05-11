@@ -27,19 +27,6 @@ public class MeetingService {
 
 
     @Transactional
-    public void createMeeting(MeetingDTO meetingDTO) {
-        Client client = clientRepository.findByPhone(meetingDTO.getPhoneClient()).orElse(createClientAndClientInfo(meetingDTO));
-
-        meetingRepository.save(Meeting.builder()
-                .clientInfo(client.getClientInfo())
-                .comment(meetingDTO.getComment())
-                .employeeInfo(employeeRepository.findById(meetingDTO.getEmployeeId()).get().getEmployeeInfo())
-                .startTime(meetingDTO.getStartTime())
-                .priceList(priceListRepository.findById(meetingDTO.getPriceListId()).get())
-                .build());
-    }
-
-    @Transactional
     public Client createClientAndClientInfo(MeetingDTO meetingDTO) {
         ClientInfo clientInfo = new ClientInfo();
         Client client = new Client();
