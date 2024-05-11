@@ -1,9 +1,6 @@
 package com.example.barber.services;
 
-import com.example.barber.DTOs.CalendarForEmployeeDTO;
-import com.example.barber.DTOs.MeetingDTO;
-import com.example.barber.DTOs.MetricDTO;
-import com.example.barber.DTOs.RegistrationEmployeeDTO;
+import com.example.barber.DTOs.*;
 import com.example.barber.Exception.PasswordConfirmationException;
 import com.example.barber.models.Employee;
 import com.example.barber.models.EmployeeInfo;
@@ -106,5 +103,10 @@ public class EmployeeService {
         int uniqueCustomers = uniqueClient.size();
         dto.setNumberOfUniqueClients(uniqueCustomers);
         return dto;
+    }
+
+    @Transactional
+    public void deleteMeeting(MeetingForDelete meeting) {
+        meetingRepository.delete(meetingRepository.findByEmployeeInfoIdAndStartTime(meeting.getEmployeeId(), meeting.getStartTime()));
     }
 }

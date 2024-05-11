@@ -42,4 +42,9 @@ public class EmployeeController {
     public MetricDTO getMetrics(Principal principal, @PathVariable int month, @PathVariable int year){
         return employeeService.getMetrics(principal, month, year);
     }
+
+    @PostMapping("/delete/meeting")
+    public void deleteMeeting(@RequestBody MeetingForDelete meeting){
+        employeeService.deleteMeeting(meeting);
+    }
 }

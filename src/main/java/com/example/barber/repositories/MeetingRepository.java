@@ -13,4 +13,6 @@ public interface MeetingRepository extends JpaRepository<Meeting, Long> {
     List<Meeting> findByStartTimeBetween(LocalDateTime atStartOfDay, LocalDateTime atTime);
 
     List<Meeting> findByEmployeeInfoIdAndStartTimeBetween(Long employeeId, LocalDateTime startOfDay, LocalDateTime endOfDay);
+
+    Meeting findByEmployeeInfoIdAndStartTime(Long id, LocalDateTime time);
 }
