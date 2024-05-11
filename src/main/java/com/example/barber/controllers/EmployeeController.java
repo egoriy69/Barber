@@ -1,9 +1,6 @@
 package com.example.barber.controllers;
 
-import com.example.barber.DTOs.JwtRequest;
-import com.example.barber.DTOs.JwtResponse;
-import com.example.barber.DTOs.RefreshTokenRequest;
-import com.example.barber.DTOs.RegistrationEmployeeDTO;
+import com.example.barber.DTOs.*;
 import com.example.barber.Exception.PasswordConfirmationException;
 import com.example.barber.models.Employee;
 import com.example.barber.models.RefreshToken;
@@ -25,6 +22,8 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 
 @CrossOrigin(origins = {"http://localhost:5173"})
@@ -33,4 +32,14 @@ import java.util.Map;
 @RequestMapping("/employee")
 public class EmployeeController {
 
+    private final EmployeeService employeeService;
+    @GetMapping("/calendarForEmployee/{year}/{month}")
+    public List<CalendarForEmployeeDTO> getCalendarForEmployee(@PathVariable int month, @PathVariable int year){
+       return employeeService.getCalendarForEmployee(month, year);
+    }
+
+    @GetMapping("/metrics/{year}/{month}")
+    public MetricDTO getMetrics(Principal principal, @PathVariable int month, @PathVariable int year){
+        return employeeService.getMetrics(principal, month, year);
+    }
 }

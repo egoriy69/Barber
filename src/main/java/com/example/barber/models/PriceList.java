@@ -1,5 +1,6 @@
 package com.example.barber.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -8,6 +9,7 @@ import java.time.Duration;
 @Entity
 @Data
 @Table(name = "price_list")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class PriceList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
