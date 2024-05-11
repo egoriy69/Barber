@@ -24,7 +24,6 @@ public class UserDetailsService implements org.springframework.security.core.use
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Employee user = findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("пользователь '%s' не найден", username)));
-//        String password = (user.getPassword() != null) ? user.getPassword() : "";
         List<SimpleGrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_EMPLOYEE"));
 
         return new org.springframework.security.core.userdetails.User(

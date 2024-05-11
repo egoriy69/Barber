@@ -63,10 +63,6 @@ public class EmployeeService {
         refreshTokenRepository.delete(refreshTokenRepository.findByEmployee(user).get());
     }
 
-    //    private LocalDate createdAt;
-//    List<Meeting> meetings;
-//    private int count;
-//    private boolean current;
     public List<CalendarForEmployeeDTO> getCalendarForEmployee(int month, int year) {
         LocalDate startDate = LocalDate.of(year, month, 1);
         LocalDate endDate = startDate.plusMonths(1).minusDays(1);

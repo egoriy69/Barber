@@ -35,7 +35,6 @@ public class MeetingService {
                 .comment(meetingDTO.getComment())
                 .employeeInfo(employeeRepository.findById(meetingDTO.getEmployeeId()).get().getEmployeeInfo())
                 .startTime(meetingDTO.getStartTime())
-//                .endTime(meetingDTO.getEndTime())
                 .priceList(priceListRepository.findById(meetingDTO.getPriceListId()).get())
                 .build());
     }
@@ -88,6 +87,7 @@ public class MeetingService {
         Meeting meeting = Meeting.builder()
                 .employeeInfo(employeeRepository.findById(meetingDTO.getEmployeeId()).get().getEmployeeInfo())
                 .clientInfo(client.getClientInfo())
+                .comment(meetingDTO.getComment())
                 .priceList(priceListRepository.findById(meetingDTO.getPriceListId()).get())
                 .startTime(meetingDTO.getStartTime())
                 .build();
@@ -110,7 +110,6 @@ public class MeetingService {
             CalendarOnMonthDTO dto = new CalendarOnMonthDTO();
             dto.setLocalDate(localDate);
             dto.setCurrent(month == localDate.getMonth().getValue());
-//            System.out.println(getAvailableSlotsOnDay(employeeId, startDate, serviceId));
             if (getAvailableSlotsOnDay(employeeId, localDate, serviceId).isEmpty()){
                 dto.setAvailable(false);
             } else {

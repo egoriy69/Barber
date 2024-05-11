@@ -23,9 +23,7 @@ import java.util.*;
 @AllArgsConstructor
 @RequestMapping("/landing")
 public class LandingControllers {
-
     private final ReviewService reviewService;
-//
     private final MeetingService meetingService;
 
     private final PriceListService priceListService;
@@ -35,10 +33,6 @@ public class LandingControllers {
         reviewService.createReview(reviewDTO);
     }
 
-//    @PostMapping("/meeting/create")
-//    public void createMeeting(@RequestBody MeetingDTO meetingDTO){
-//        meetingService.createMeeting(meetingDTO);
-//    }
 
     @GetMapping("/priceList")
     public List<PriceList> getPriceList(){
@@ -56,11 +50,9 @@ public class LandingControllers {
             @RequestParam LocalDate date,
             @RequestParam Long serviceId) {
         List<LocalDateTime> slots = meetingService.getAvailableSlotsOnDay(employeeId, date, serviceId);
-//        System.out.println(slots.size());
         return ResponseEntity.ok(slots);
     }
 
-//    @GetMapping("/availableSlotsOnMonth")
     @PostMapping("/meeting/create")
     public ResponseEntity<Meeting> createMeeting2(
             @RequestBody MeetingDTO meetingDTO) {
@@ -73,6 +65,4 @@ public class LandingControllers {
                                                 @RequestParam Long serviceId, @RequestParam Long employeeId){
         return meetingService.getCalendar(month, year, serviceId, employeeId);
     }
-
-
 }

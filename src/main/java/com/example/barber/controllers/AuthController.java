@@ -97,8 +97,4 @@ public class AuthController {
                 }).orElseThrow(() -> new PasswordConfirmationException("Нужна повторная авторизация"));
     }
 
-//    @GetMapping("/user")
-//    public UserWithRoleDTO getFullName(Principal principal){
-//        return userService.getUserWithRole(principal);
-//    }
 }
