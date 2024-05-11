@@ -34,8 +34,8 @@ public class EmployeeController {
 
     private final EmployeeService employeeService;
     @GetMapping("/calendarForEmployee/{year}/{month}")
-    public List<CalendarForEmployeeDTO> getCalendarForEmployee(@PathVariable int month, @PathVariable int year){
-       return employeeService.getCalendarForEmployee(month, year);
+    public List<CalendarForEmployeeDTO> getCalendarForEmployee(Principal principal, @PathVariable int month, @PathVariable int year){
+       return employeeService.getCalendarForEmployee(principal, month, year);
     }
 
     @GetMapping("/metrics/{year}/{month}")

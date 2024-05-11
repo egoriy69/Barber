@@ -63,7 +63,7 @@ public class EmployeeService {
         refreshTokenRepository.delete(refreshTokenRepository.findByEmployee(user).get());
     }
 
-    public List<CalendarForEmployeeDTO> getCalendarForEmployee(int month, int year) {
+    public List<CalendarForEmployeeDTO> getCalendarForEmployee(Principal principal, int month, int year) {
         LocalDate startDate = LocalDate.of(year, month, 1);
         LocalDate endDate = startDate.plusMonths(1).minusDays(1);
         DayOfWeek dayOfWeek = LocalDate.of(year, month, 1).getDayOfWeek();
@@ -71,7 +71,7 @@ public class EmployeeService {
         int countDays = dayOfWeek.getValue() + endDate.getDayOfMonth() - 1;
         endDate = startDate.plusDays(countDays > 35 ? 41 : 34);
 
-       List<Meeting> meetings = meetingRepository.findByStartTimeBetween(startDate.atTime(0,0,0), endDate.atTime(23, 59, 59));
+       List<Meeting> meetings = meetingRepository.findByEmployeeInfoIdAndStartTimeBetween(employeeRepository.findByPhone(principal.getName()).get().getId(),startDate.atTime(0,0,0), endDate.atTime(23, 59, 59));
 
         List<CalendarForEmployeeDTO> calendarForEmployeeDTOS = new ArrayList<>();
 
