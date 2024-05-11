@@ -23,12 +23,15 @@ public class ReviewService {
     private final EmployeeRepository employeeRepository;
 
     public void createReview(ReviewDTO reviewDTO) {
+
         ClientInfo clientInfo = clientRepository.findByPhone(reviewDTO.getPhoneClient())
-                .orElseThrow(() -> new NoSuchElementException("Клиент с номером: " + reviewDTO.getPhoneClient() + " не найден")).getClientInfo();
+                .orElseThrow(() -> new NoSuchElementException("Клиент с номером: " +
+                        reviewDTO.getPhoneClient() +
+                        " не найден")).getClientInfo();
 
         EmployeeInfo employeeInfo = employeeRepository.findById(reviewDTO.getEmployeeId()).get().getEmployeeInfo();
-        boolean exists = reviewRepository.existsByEmployeeInfoAndClientInfo(employeeInfo, clientInfo);
 
+        boolean exists = reviewRepository.existsByEmployeeInfoAndClientInfo(employeeInfo, clientInfo);
         if (exists) {
             throw new IllegalStateException("Отзыв от этого клиента для данного сотрудника уже существует");
         }

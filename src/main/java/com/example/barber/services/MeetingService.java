@@ -54,19 +54,27 @@ public class MeetingService {
     }
 
     public List<LocalDateTime> getAvailableSlotsOnDay(Long employeeId, LocalDate date, Long serviceId) {
-        PriceList service = priceListRepository.findById(serviceId).orElseThrow(() -> new RuntimeException("Service not found"));
+
+        PriceList service = priceListRepository.findById(serviceId).orElseThrow(()
+                -> new RuntimeException("Service not found"));
+
         LocalDateTime startOfDay = LocalDateTime.of(date, LocalTime.of(8, 0));
         LocalDateTime endOfDay = LocalDateTime.of(date, LocalTime.of(18, 0));
-        List<Meeting> meetings = meetingRepository.findByEmployeeInfoIdAndStartTimeBetween(employeeId, startOfDay, endOfDay);
-        List<LocalDateTime> availableSlots = new ArrayList<>();
-        LocalDateTime currentTime = startOfDay;
 
+        List<Meeting> meetings = meetingRepository.
+                findByEmployeeInfoIdAndStartTimeBetween(employeeId,
+                        startOfDay, endOfDay);
+
+        List<LocalDateTime> availableSlots = new ArrayList<>();
+
+        LocalDateTime currentTime = startOfDay;
         while (currentTime.plus(service.getDuration()).isBefore(endOfDay)) {
             boolean isAvailable = true;
             for (Meeting meeting : meetings) {
                 Duration meetingDuration = meeting.getPriceList().getDuration();
                 LocalDateTime meetingEndTime = meeting.getStartTime().plus(meetingDuration);
-                if (currentTime.plus(service.getDuration()).isAfter(meeting.getStartTime()) && currentTime.isBefore(meetingEndTime)) {
+                if (currentTime.plus(service.getDuration()).isAfter(meeting.getStartTime())
+                        && currentTime.isBefore(meetingEndTime)) {
                     isAvailable = false;
                     break;
                 }
@@ -74,10 +82,9 @@ public class MeetingService {
             if (isAvailable) {
                 availableSlots.add(currentTime);
             }
-
             currentTime = currentTime.plusMinutes(30);
-
         }
+
         return availableSlots;
     }
 
