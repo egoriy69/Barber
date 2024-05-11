@@ -107,6 +107,6 @@ public class EmployeeService {
 
     @Transactional
     public void deleteMeeting(MeetingForDelete meeting) {
-        meetingRepository.delete(meetingRepository.findByEmployeeInfoIdAndStartTime(meeting.getEmployeeId(), meeting.getStartTime()));
+        meetingRepository.delete(meetingRepository.findByEmployeeInfoIdAndStartTime(meeting.getEmployeeId(), meeting.getStartTime().toLocalDateTime()));
     }
 }
